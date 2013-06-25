@@ -1,0 +1,43 @@
+# This playbook install mysql server (http://www.mysql.com/).
+# Based on a playbook by https://github.com/fourkitchens/server-playbooks
+---
+- hosts: mysqlForHive
+  sudo: Yes
+  vars_files:
+        - [ "../vars/mysql.yml" ]
+  
+  tasks: 
+        - name: MySQL | Install MySQL and related packages
+          yum: name={{ item }} state=installed
+          with_items:
+                - mysql
+                - mysql-server
+                - MySQL-python
+                - mysql-connector-java
+          register: mysql_installed
+
+        - name: MySQL | Start mysql
+          service: name=mysqld state=started
+
+#When run for the first time, we need to remove the login_user and login_password as root will not have a password set.
+        - name: MySQL | update mysql root password for all root accounts
+          mysql_user: name=root host=localhost login_user=root login_password=$root_db_password password=$root_db_password
+
+        - name: MySQL | Update MySQL root password for all root accounts
+          mysql_user: name=root host={{ item }} login_user=root login_password=$root_db_password password=${root_db_password}
+          with_items:
+                - $ansible_hostname
+                - 127.0.0.1
+                - ::1
+
+        - name: MySQL | Ensure anonymous users are not in the database
+          mysql_user: name="" host=$item login_user=root login_password=$root_db_password state="absent"
+          with_items:
+                - localhost
+                - ${ansible_hostname}
+
+#        - name: MySQL | Update MySQL root password for all root accounts
+#          mysql_user: name=root host=localhost password=${root_db_password}
+
+        - name: MySQL | Remove the MySQL test database
+          mysql_db: db=test login_user=root login_password=$root_db_password state=absent

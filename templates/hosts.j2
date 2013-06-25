@@ -1,0 +1,5 @@
+{% for backend in groups['namenode'] %}
+	nn: {{ hostvars[backend]['ansible_hostname'] }}
+{% endfor %}
+
+{{ HADOOP_GROUP }}

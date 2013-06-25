@@ -1,0 +1,18 @@
+- name: COMMON | Install wget package
+  yum: name=wget state=installed
+  only_if: "'$ansible_pkg_mgr' == 'yum'"
+
+- name: COMMON | Install curl package
+  yum: name=curl state=installed
+  only_if: "'$ansible_pkg_mgr' == 'yum'"
+
+- name: COMMON | Install unzip package
+  yum: name=unzip state=installed
+  only_if: "'$ansible_pkg_mgr' == 'yum'"
+
+- name: COMMON | Install tar package
+  yum: name=tar state=installed
+  only_if: "'$ansible_pkg_mgr' == 'yum'"
+
+
+

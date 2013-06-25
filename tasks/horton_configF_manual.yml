@@ -1,0 +1,13 @@
+- hosts: hadoop_cluster
+  sudo: Yes
+  vars_files:
+        - [ "../vars/userGrp.yml" ]
+        - [ "../vars/dirsHDP.yml" ]
+  
+  tasks:
+        - name: HDP | Copy configuration files
+          template: src=../templates/{{item}}.j2 dest=${HADOOP_CONF_DIR}/{{item}} owner=${HDFS_USER} group=${HADOOP_GROUP} mode=0644
+          with_items:
+                - core-site.xml
+                - hdfs-site.xml
+                - mapred-site.xml

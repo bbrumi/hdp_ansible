@@ -1,0 +1,34 @@
+- hosts: hadoop_cluster
+  sudo: Yes
+  vars_files:
+        - [ "../vars/userGrp.yml" ]
+  
+  tasks:
+        - name: HDP | Configure Hortonworks yum repo 
+          get_url: url=http://public-repo-1.hortonworks.com/HDP-1.2.0/repos/centos6/hdp.repo dest=/etc/yum.repos.d/hdp.repo force=no owner=root group=root
+
+        - name: HDP | Create Hadoop group
+          group: name=${HADOOP_GROUP} system=no state=present
+
+        - name: HDP | Create Hadoop users
+          user: name={{ item }} group=${HADOOP_GROUP} state=present
+          with_items:
+                - ${HDFS_USER}
+                - ${MAPRED_USER}
+
+        - name: HDP | Install HDP
+          yum: name={{ item }} state=installed
+          with_items:
+                - hadoop 
+                - hadoop-libhdfs 
+                - hadoop-native 
+                - hadoop-pipes 
+                - hadoop-sbin 
+                - openssl   
+        
+        - name: HDP | Install compression library Snappy
+          yum: name={{item}} state=installed
+          with_items:
+                - snappy
+                - snappy-devel
+

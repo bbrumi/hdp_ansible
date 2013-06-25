@@ -1,0 +1,4 @@
+is_namenode: "'$ansible_hostname' == '$namenode'"
+is_jobtracker: "'$ansible_hostname' == '$jobtracker'"
+is_secondary_namenode: "'$ansible_hostname' == '$secondary_namenode'"
+is_worker: "'hadoop-nodes' in $group_names"

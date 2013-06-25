@@ -1,0 +1,12 @@
+# Install prerequisites for Hadoop
+- hosts: hadoop_cluster
+  sudo: True
+  vars_files:
+      - [ "vars/main.yml" ]
+      #- [ "vars/$ansible_distribution-$ansible_architecture.yml", "vars/$ansible_distribution.yml" ]
+ 
+  tasks:
+        - include: tasks/install-base.yml tags=base
+        - include: tasks/jdk6.yml tags=java
+        - include: tasks/prepare_env.yml
+        - include: tasks/horton_main.yml tags=hdp
