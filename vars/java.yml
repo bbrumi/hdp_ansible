@@ -3,3 +3,4 @@ java_url: "http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x
 java_file: "jdk-6u45-linux-x64-rpm.bin"
 java_archive: "jdk-6u45-linux-amd64.rpm"
 jvm_folder: "/opt/"
+JAVA_HOME: "/usr/java/default"

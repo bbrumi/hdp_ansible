@@ -63,24 +63,25 @@
 
   <property>
     <name>mapred.job.tracker</name>
-    <!-- cluster variant -->
-    <value>TODO-JTNODE-HOSTNAME:50300</value>
+    {% for jt in groups['jobtracker'] %}
+    <value>{{ hostvars[jt]['ansible_hostname'] }}:50300</value>
+    {% endfor %}
     <description>No description</description>
     <final>true</final>
   </property>
 
   <property>
     <name>mapred.job.tracker.http.address</name>
-    <!-- cluster variant -->
-    <value>TODO-JTNODE-HOSTNAME:50030</value>
+    {% for jt in groups['jobtracker'] %}
+    <value>{{ hostvars[jt]['ansible_hostname'] }}:50300</value>
+    {% endfor %}
     <description>No description</description>
     <final>true</final>
   </property>
 
   <property>
-    <!-- cluster specific -->
     <name>mapred.local.dir</name>
-    <value>TODO-MAPRED-LOCAL-DIR</value>
+    <value>{{ MAPREDUCE_LOCAL_DIR|join(", ") }}</value>
     <description>No description</description>
     <final>true</final>
   </property>
@@ -478,8 +479,9 @@
 
   <property>
     <name>mapreduce.history.server.http.address</name>
-    <!-- cluster variant -->
-    <value>TODO-JTNODE-HOSTNAME:51111</value>
+    {% for jt in groups['jobtracker'] %}
+    <value>{{ hostvars[jt]['ansible_hostname'] }}:51111</value>
+    {% endfor %}
     <description>Http address of the history server</description>
     <final>true</final>
   </property>

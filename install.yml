@@ -1,0 +1,8 @@
+#Main install for Hortonworks HDP
+
+- include: tasks/install-base.yml tags=base
+#- include: tasks/jdk6.yml tags=java
+- include: tasks/prepare_env.yml
+- include: tasks/horton_main_manual.yml tags=hdp
+- include: tasks/horton_createDirs_manual.yml tags=hdp
+- include: tasks/horton_configF_manual.yml tags=hdp

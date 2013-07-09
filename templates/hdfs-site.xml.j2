@@ -9,8 +9,7 @@
 
   <property>
     <name>dfs.name.dir</name>
-    <!-- cluster variant -->
-    <value>TODO-DFS-NAME-DIR</value>
+    <value>{{ DFS_NAME_DIR|join(", ") }}</value>
     <description>
         Determines where on the local filesystem the DFS name node
         should store the name table.  If this is a comma-delimited list
@@ -50,7 +49,7 @@
 
   <property>
     <name>dfs.data.dir</name>
-    <value>TODO-DFS-DATA-DIR</value>
+    <value>{{ DFS_DATA_DIR|join(", ") }}</value>
     <description>
         Determines where on the local filesystem an DFS data node
         should store its blocks.  If this is a comma-delimited
@@ -133,7 +132,9 @@
 
   <property>
     <name>dfs.http.address</name>
-    <value>TODO-NAMENODE-HOSTNAME:50070</value>
+    {% for nn in groups['namenode'] %}
+    <value>{{ hostvars[nn]['ansible_hostname']}}:50070</value>
+    {% endfor %}
     <description>
         The name of the default file system.  Either the
         literal string "local" or a host:port for NDFS.
@@ -259,7 +260,9 @@
   <property>
     <!-- cluster variant -->
     <name>dfs.secondary.http.address</name>
-    <value>TODO-SECONDARYNAMENODE-HOSTNAME:50090</value>
+    {% for snn in groups['secondary_namenode'] %}
+    <value>{{ hostvars[snn]['ansible_hostname']}}:50090</value>
+    {% endfor %}
     <description>Address of secondary namenode web server</description>
   </property>
 
@@ -329,7 +332,9 @@
 
   <property>
     <name>dfs.https.address</name>
-    <value>TODO-NAMENODE-HOSTNAME:50470</value>
+    {% for nn in groups['namenode'] %}
+    <value>{{ hostvars[nn]['ansible_hostname'] }}:50470</value>
+    {% endfor %}
     <description>The https address where namenode binds</description>
   </property>
 

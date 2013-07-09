@@ -8,4 +8,4 @@
         - name: HDP | Copy configuration files
           template: src=../templates/{{item}}.j2 dest=/home/hadoop/horton_install/dummy 
           with_items:
-                - hosts
+                - mapred-site.xml

@@ -11,26 +11,26 @@
   tasks:
         - name: JDK | Create tmp dir
           file: path=${tmpDirJDK} state=directory
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")
         
         - name: JDK | Copy download JDK6 script
           action: copy src=../files/downloadJDK.sh dest=${tmpDirJDK} mode=0555
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")
 
         - name: JDK | Download JDK6
           action: command chdir=${tmpDirJDK} /tmp/jdk6/downloadJDK.sh ${java_url} ${java_file}
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")
 
         - name: JDK | Extract RPM files from BIN file - JDK6 
           action: command chdir=${tmpDirJDK} sh ${tmpDirJDK}/${java_file}
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")
 
         - name: JDK | Install JDK6 RPM package
           action: command chdir=${tmpDirJDK} rpm --force -Uvh ${java_archive}
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")
           register: jdk_installed
           only_if: "'$ansible_pkg_mgr' == 'yum'"
 
         - name: JDK | Cleanup temporary files - JDK6
           file: path=${tmpDirJDK} state=absent 
-          when_unset: ${jdk_installed}
+          only_if: is_unset("$jdk_installed")

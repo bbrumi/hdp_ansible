@@ -9,16 +9,21 @@
         - name: HDP | Create HDFS directories - DN
           file: path={{item}} owner=${HDFS_USER} group=${HADOOP_GROUP} mode=755 state=directory
           with_items:
-                - ${HDFS_CONF_DIR}
+                - ${HADOOP_CONF_DIR}
                 - ${HDFS_LOG_DIR}
                 - ${HDFS_PID_DIR}
+          only_if: '$is_worker'
+
+        - name: HDP | Create HDFS directories - DN data dir
+          file: path={{item}} owner=${HDFS_USER} group=${HADOOP_GROUP} mode=750 state=directory
+          with_items:
                 - ${DFS_DATA_DIR}
           only_if: '$is_worker'
 
         - name: HDP | Create HDFS directories - NN
           file: path={{item}} owner=${HDFS_USER} group=${HADOOP_GROUP} mode=755 state=directory
           with_items:
-                - ${HDFS_CONF_DIR}
+                - ${HADOOP_CONF_DIR}
                 - ${HDFS_LOG_DIR}
                 - ${HDFS_PID_DIR}
                 - ${DFS_NAME_DIR}
@@ -27,7 +32,7 @@
         - name: HDP | Create HDFS directories - SNN
           file: path={{item}} owner=${HDFS_USER} group=${HADOOP_GROUP} mode=755 state=directory
           with_items:
-                - ${HDFS_CONF_DIR}
+                - ${HADOOP_CONF_DIR}
                 - ${HDFS_LOG_DIR}
                 - ${HDFS_PID_DIR}
                 - ${FS_CHECKPOINT_DIR}
@@ -39,4 +44,12 @@
                 - ${MAPREDUCE_LOCAL_DIR}
                 - ${MAPREDUCE_LOG_DIR}
                 - ${MAPREDUCE_PID_DIR}
-          only_if: '$is_worker' or '$is_jobtracker'
+          only_if: '$is_worker'
+
+        - name: HDP | Create MapRed directories - JT
+          file: path={{item}} owner=${MAPRED_USER} group=${HADOOP_GROUP} mode=755 state=directory
+          with_items:
+                - ${MAPREDUCE_LOCAL_DIR}
+                - ${MAPREDUCE_LOG_DIR}
+                - ${MAPREDUCE_PID_DIR}
+          only_if: '$is_jobtracker'

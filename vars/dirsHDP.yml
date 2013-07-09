@@ -32,10 +32,10 @@ MAPREDUCE_LOCAL_DIR:
 - /mapred/
 
 # Directory to store the MapReduce logs.
-MAPRED_LOG_DIR:  /var/log/hadoop/mapred 
+MAPREDUCE_LOG_DIR:  /var/log/hadoop/mapred 
 
 # Directory to store the MapReduce process ID.
-MAPRED_PID_DIR:  /var/run/hadoop/mapred 
+MAPREDUCE_PID_DIR:  /var/run/hadoop/mapred 
 
 #
 # Hadoop Service - Hive

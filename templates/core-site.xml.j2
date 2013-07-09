@@ -42,8 +42,9 @@
 
   <property>
     <name>fs.default.name</name>
-    <!-- cluster variant -->
-    <value>hdfs://TODO-NAMENODE-HOSTNAME:8020</value>
+    {% for nn in groups['namenode'] %}
+           <value>hdfs://{{ hostvars[nn]['ansible_hostname'] }}:8020</value>
+    {% endfor %}
     <description>
         The name of the default file system.  Either the
         literal string "local" or a host:port for NDFS.
@@ -67,7 +68,7 @@
 
   <property>
     <name>fs.checkpoint.dir</name>
-    <value>TODO-FS-CHECKPOINT-DIR</value>
+    <value>{{ FS_CHECKPOINT_DIR|join(", ") }}</value>
     <description>
         Determines where on the local filesystem the DFS secondary
         name node should store the temporary images to merge.
