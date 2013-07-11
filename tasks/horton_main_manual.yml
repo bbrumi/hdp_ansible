@@ -2,10 +2,11 @@
   sudo: Yes
   vars_files:
         - [ "../vars/userGrp.yml" ]
+        - [ "../vars/hadoop.yml" ]
   
   tasks:
         - name: HDP | Configure Hortonworks yum repo 
-          get_url: url=http://public-repo-1.hortonworks.com/HDP-1.2.0/repos/centos6/hdp.repo dest=/etc/yum.repos.d/hdp.repo force=no owner=root group=root
+          get_url: url=${HADOOP_REPO} dest=/etc/yum.repos.d/hdp.repo force=no owner=root group=root
 
         - name: HDP | Create Hadoop group
           group: name=${HADOOP_GROUP} system=no state=present
@@ -32,3 +33,10 @@
                 - snappy
                 - snappy-devel
 
+        - name: HDP | Install LZO
+          yum: name={{item}} state=installed
+          with_items:
+                - lzo
+                - lzo-devel
+                - hadoop-lzo
+                - hadoop-lzo-native

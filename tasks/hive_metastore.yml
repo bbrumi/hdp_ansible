@@ -1,0 +1,60 @@
+- include: hive_prereq.yml
+- hosts: mysqlForHive
+  sudo: Yes
+  vars_files:
+        - [ "../vars/userGrp.yml" ]
+        - [ "../vars/dirsHDP.yml" ]   
+        - [ "../vars/java.yml" ] 
+        - [ "../vars/hive.yml" ]    
+ 
+  tasks:
+         
+        - name: Hive | Install Hive
+          yum: name={{item}} state=installed
+          with_items:
+                - hive
+                - hcatalog
+        
+ #       - name: Hive | Init MySQL DB
+ #         mysql_db: state=import name=${HIVE_DB} target=${HIVE_MYSQL_DB_SCHEMA} login_user=${HIVE_MYSQL_USER} login_password=${HIVE_MYSQL_PASSWD}
+        
+        - name: Hive | Clean up Hive configuration directory, if it exists   
+          file: path=${HIVE_CONF_DIR} state=absent
+          ignore_errors: yes
+        
+        - name: Hive | Create Hive user
+          user: name=${HIVE_USER} group=${HADOOP_GROUP} state=present
+
+        - name: Hive | Create configuration directory
+          file: path=${HIVE_CONF_DIR} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755 state=directory
+        
+        - name: Hive | Copy new configuration files
+          template: src=../templates/hive/{{item}}.j2 dest=${HIVE_CONF_DIR}/{{item}} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755
+          with_items:
+                - hive-env.sh
+                - hive-site.xml
+
+        - name: Hive | Copy mysql connector jar
+          copy: src={{item}} dest=${HIVE_LIB}/ owner=root group=root mode=0644
+          with_fileglob: ../files/hive/*
+
+        - name: Hive | Create user directory on HDFS
+          command: sudo -u ${HDFS_USER} ${HADOOP_BIN}/hadoop fs -mkdir ${HIVE_USER_DIR_HDFS}/${HIVE_USER}
+          ignore_errors: yes
+
+        - name: Hive | Change ownership of Hive HDFS user directory
+          command: sudo -u ${HDFS_USER} ${HADOOP_BIN}/hadoop fs -chown -R ${HIVE_USER}:${USERS_GRP_HDFS} ${HIVE_USER_DIR_HDFS}/${HIVE_USER}
+          ignore_errors: yes
+
+        - name: Hive | Create warehouse directory on HDFS
+          command: sudo -u ${HDFS_USER} ${HADOOP_BIN}/hadoop fs -mkdir ${HIVE_WAREHOUSE_DIR_HDFS}
+          ignore_errors: yes
+
+        - name: Hive | Change ownership of Hive HDFS warehouse directories
+          command: sudo -u ${HDFS_USER} ${HADOOP_BIN}/hadoop fs -chown -R ${HIVE_USER}:${USERS_GRP_HDFS} ${HIVE_WAREHOUSE_DIR_HDFS}
+          ignore_errors: yes
+
+        - name: Hive | Change permissions of Hive HDFS warehouse directory
+          command: sudo -u ${HDFS_USER} ${HADOOP_BIN}/hadoop fs -chmod -R 775 ${HIVE_WAREHOUSE_DIR_HDFS}
+          ignore_errors: yes
+

@@ -64,7 +64,7 @@
   <property>
     <name>mapred.job.tracker</name>
     {% for jt in groups['jobtracker'] %}
-    <value>{{ hostvars[jt]['ansible_hostname'] }}:50300</value>
+    <value>{{ hostvars[jt]['ansible_hostname'] }}:8021</value>
     {% endfor %}
     <description>No description</description>
     <final>true</final>
@@ -73,7 +73,7 @@
   <property>
     <name>mapred.job.tracker.http.address</name>
     {% for jt in groups['jobtracker'] %}
-    <value>{{ hostvars[jt]['ansible_hostname'] }}:50300</value>
+    <value>{{ hostvars[jt]['ansible_hostname'] }}:50030</value>
     {% endfor %}
     <description>No description</description>
     <final>true</final>

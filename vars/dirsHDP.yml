@@ -31,6 +31,8 @@ HDFS_PID_DIR:  /var/run/hadoop/hdfs
 MAPREDUCE_LOCAL_DIR:
 - /mapred/
 
+MAPREDUCE_HDFS_DIR: /mapred
+
 # Directory to store the MapReduce logs.
 MAPREDUCE_LOG_DIR:  /var/log/hadoop/mapred 
 
@@ -49,48 +51,6 @@ HIVE_LOG_DIR:  /var/log/hive
 
 # Directory to store the Hive process ID.
 HIVE_PID_DIR:  /var/run/hive 
-
-#
-# Hadoop Service - Templeton
-#
-
-# Directory to store the Templeton configuration files.
-WEBHCAT_CONF_DIR:  /usr/lib/hcatalog/conf 
-
-# Directory to store the Templeton logs.
-WEBHCAT_LOG_DIR:  /var/log/webhcat 
-
-# Directory to store the Templeton process ID.
-WEBHCAT_PID_DIR:  /var/run/webhcat 
-
-#
-# Hadoop Service - HBase
-#
-
-# Directory to store the HBase configuration files.
-HBASE_CONF_DIR:  /etc/hbase/conf 
-
-# Directory to store the HBase logs.
-HBASE_LOG_DIR:  /var/log/hbase 
-
-# Directory to store the HBase process ID.
-HBASE_PID_DIR:  /var/run/hbase 
-
-#
-# Hadoop Service - ZooKeeper
-#
-
-# Directory where ZooKeeper will store data.
-ZOOKEEPER_DATA_DIR:  TODO-ZOOKEPPER-DATA-DIR 
-
-# Directory to store the ZooKeeper configuration files.
-ZOOKEEPER_CONF_DIR:  /etc/zookeeper/conf 
-
-# Directory to store the ZooKeeper logs.
-ZOOKEEPER_LOG_DIR:  /var/log/zookeeper 
-
-# Directory to store the ZooKeeper process ID.
-ZOOKEEPER_PID_DIR:  /var/run/zookeeper 
 
 #
 # Pig
@@ -122,3 +82,9 @@ OOZIE_TMP_DIR:  /var/tmp/oozie
 # Hadoop Service - Sqoop
 #
 SQOOP_CONF_DIR:  /etc/sqoop/conf 
+
+#
+# HADOOP BASE DIRS -- DO NOT CHANGE!!!
+#
+HADOOP_BIN: /usr/lib/hadoop/bin
+HADOOP_SBIN: /usr/lib/hadoop/sbin

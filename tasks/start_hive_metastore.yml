@@ -1,0 +1,14 @@
+- hosts: mysqlForHive
+  sudo: Yes
+  vars_files: 
+        - [ "../vars/dirsHDP.yml"]
+        - [ "../vars/userGrp.yml" ]
+
+  tasks:
+        - name: Hive | Copy new configuration files
+          template: src=../templates/hive/{{item}}.j2 dest=${HIVE_CONF_DIR}/{{item}} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755
+          with_items:
+                - hiveMetastore.sh
+ 
+        - name: Start Hive metastore
+          shell: ${HIVE_CONF_DIR}/hiveMetastore.sh 

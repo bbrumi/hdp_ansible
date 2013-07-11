@@ -1,0 +1,4 @@
+#Start Hadoop.
+
+- include: tasks/stop_hdfs.yml
+- include: tasks/stop_mapred.yml

@@ -1,0 +1,4 @@
+#Start Hadoop.
+
+- include: tasks/start_hdfs.yml
+- include: tasks/start_mapred.yml

@@ -24,3 +24,5 @@ HBASE_USER: hbase
 
 # User which will own the ZooKeeper services.
 ZOOKEEPER_USER: zookeeper
+
+USERS_GRP_HDFS: users

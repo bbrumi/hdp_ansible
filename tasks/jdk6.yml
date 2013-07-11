@@ -14,9 +14,9 @@
           only_if: is_unset("$jdk_installed")
         
         - name: JDK | Copy download JDK6 script
-          action: copy src=../files/downloadJDK.sh dest=${tmpDirJDK} mode=0555
+          copy: src=../files/downloadJDK.sh dest=${tmpDirJDK} mode=0555
           only_if: is_unset("$jdk_installed")
-
+        
         - name: JDK | Download JDK6
           action: command chdir=${tmpDirJDK} /tmp/jdk6/downloadJDK.sh ${java_url} ${java_file}
           only_if: is_unset("$jdk_installed")
@@ -27,9 +27,9 @@
 
         - name: JDK | Install JDK6 RPM package
           action: command chdir=${tmpDirJDK} rpm --force -Uvh ${java_archive}
-          only_if: is_unset("$jdk_installed")
-          register: jdk_installed
+          register: jdk_installed="True"
           only_if: "'$ansible_pkg_mgr' == 'yum'"
+          only_if: is_unset("$jdk_installed")
 
         - name: JDK | Cleanup temporary files - JDK6
           file: path=${tmpDirJDK} state=absent 

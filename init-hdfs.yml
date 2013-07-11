@@ -1,0 +1,13 @@
+---
+# Format HDFS and create tmp and user directories
+- hosts: hadoop_cluster
+  sudo: Yes
+  vars_files:
+        - [ "vars/userGrp.yml" ] 
+        - [ "vars/nodeType.yml" ]
+ 
+  tasks:
+    - name: Initialize HDFS
+      command: sudo -u ${HDFS_USER} /usr/lib/hadoop/bin/hadoop namenode -format -nonInteractive -force
+      only_if: '$is_namenode'
+
