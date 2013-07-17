@@ -132,9 +132,7 @@
 
   <property>
     <name>dfs.http.address</name>
-    {% for nn in groups['namenode'] %}
-    <value>{{ hostvars[nn]['ansible_hostname']}}:50070</value>
-    {% endfor %}
+    <value>{{ hostvars[groups['namenode'][0]]['ansible_eth0']['ipv4']['address'] }}:50070</value>
     <description>
         The name of the default file system.  Either the
         literal string "local" or a host:port for NDFS.
@@ -260,9 +258,7 @@
   <property>
     <!-- cluster variant -->
     <name>dfs.secondary.http.address</name>
-    {% for snn in groups['secondary_namenode'] %}
-    <value>{{ hostvars[snn]['ansible_hostname']}}:50090</value>
-    {% endfor %}
+    <value>{{ hostvars[groups['secondary_namenode'][0]]['ansible_eth0']['ipv4']['address'] }}:50090</value>
     <description>Address of secondary namenode web server</description>
   </property>
 
@@ -332,9 +328,7 @@
 
   <property>
     <name>dfs.https.address</name>
-    {% for nn in groups['namenode'] %}
-    <value>{{ hostvars[nn]['ansible_hostname'] }}:50470</value>
-    {% endfor %}
+    <value>{{ hostvars[groups['namenode'][0]]['ansible_eth0']['ipv4']['address'] }}:50470</value>
     <description>The https address where namenode binds</description>
   </property>
 

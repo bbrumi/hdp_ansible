@@ -20,9 +20,7 @@ limitations under the License.
 <configuration>
  <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    {% for mysql in groups['mysqlForHive'] %}
-    	<value>jdbc:mysql://172.16.115.174/{{HIVE_DB}}?createDatabaseIfNotExist=true</value>
-    {% endfor %}
+    	<value>jdbc:mysql://{{ hostvars[groups['mysqlForHive'][0]]['ansible_eth0']['ipv4']['address'] }}/{{HIVE_DB}}?createDatabaseIfNotExist=true</value>
     <description>JDBC connect string for a JDBC metastore</description>
   </property>
   
@@ -99,10 +97,7 @@ limitations under the License.
 
   <property>
     <name>hive.metastore.uris</name>
-     {% for mysql in groups['mysqlForHive'] %}
-    	<value>thrift://172.16.115.174:9083</value>
-    {% endfor %}
-
+    	<value>thrift://{{ hostvars[groups['mysqlForHive'][0]]['ansible_eth0']['ipv4']['address'] }}:9083</value>
     <description>URI for client to contact metastore server</description>
   </property>
 

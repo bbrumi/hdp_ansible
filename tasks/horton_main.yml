@@ -7,6 +7,9 @@
   tasks:
         - name: HDP | Configure Hortonworks yum repo 
           get_url: url=${HADOOP_REPO} dest=/etc/yum.repos.d/hdp.repo force=no owner=root group=root
+       
+        - name: HDP | Configure Ambari yum repo
+          get_url: url=${AMBARI_REPO} dest=/etc/yum.repos.d/ambari.repo force=no owner=root group=root
 
         - name: HDP | Create Hadoop group
           group: name=${HADOOP_GROUP} system=no state=present

@@ -1,0 +1,35 @@
+# this file defines behavior for the 'ganglia_master' class of nodes
+
+- name: NAGIOS | Installing packages on the server
+  yum: name={{item}} state=installed
+  only_if: "'$ansible_pkg_mgr' == 'yum'"
+  with_items:
+        - httpd
+        - php
+        - net-snmp
+        - net-snmp-utils
+        - php-pecl-json
+        - net-snmp-perl
+        - perl-Net-SNMP
+        - fping
+        - nagios
+        - nagios-plugins
+        - hdp_mon_nagios_addons
+  tags:
+    - packages
+
+- name: NAGIOS | Ensure apache is running
+  action: service name=httpd state=started
+
+- name: GANGLIA | copy objects
+  copy: src={{item}} dest=/usr/libexec/hdp/ganglia/ mode=755
+  with_fileglob: ../files/objects/* 
+
+- name: GANGLIA | copy scripts
+  copy: src={{item}} dest=/etc/init.d/
+  with_fileglob: monitoring/files/scripts/*
+
+- action: service name=$item state=running
+  with_items:
+      - httpd
+      - hdp-gmetad start

@@ -1,5 +1,4 @@
-{% for backend in groups['namenode'] %}
-	nn: {{ hostvars[backend]['ansible_hostname'] }}
+Test
+{% for host in groups['ganglia-master'] %}
+   {{ hostvars[groups['ganglia-master'][0]]['ansible_eth0']['ipv4']['address'] }}
 {% endfor %}
-
-{{ HADOOP_GROUP }}

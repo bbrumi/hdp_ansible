@@ -32,19 +32,12 @@
 
         - name: COMMON | Disable IPv6 firewall
           service: name=ip6tables state=stopped enabled=no 
-          
-#- name: COMMON | Configure local ntp servers
-#  template: src=${ntp_file}
-#           dest=/etc/ntp.conf
-#            backup=yes
- 
- #disable selinux??
- #      - name: COMMON | Disable SeLinux
- #      selinux: state=disabled
- #
- #      - name: Disable SELinux in conf file
- #        lineinfile: dest=/etc/sysconfig/selinux regexp='^SELINUX=' line='SELINUX=disabled' state=present
- #
- #        - name: Disabel selinux dynamically
- #          shell: creates=/etc/sysconfig/selinux.disabled setenforce 0 ; touch /etc/sysconfig/selinux.disabled
- #
+       
+        - name: COMMON | Disable SeLinux
+          selinux: state=disabled
+
+        - name: COMMON | Disable SELinux in conf file
+          lineinfile: dest=/etc/sysconfig/selinux regexp='^SELINUX=' line='SELINUX=disabled' state=present
+
+        - name: COMMON | Disable selinux dynamically
+          shell: creates=/etc/sysconfig/selinux.disabled setenforce 0 ; touch /etc/sysconfig/selinux.disabled

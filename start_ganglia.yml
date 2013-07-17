@@ -1,0 +1,14 @@
+#Start Ganglia
+- hosts: ganglia-master
+  sudo: Yes
+  tasks:
+        - name: Start Ganglia server
+          command: /etc/init.d/hdp-gmetad start
+          notify:       
+                - restart httpd
+
+- hosts: ganglia-nodes
+  sudo: Yes
+  tasks:
+        - name: Start Ganglia client
+          command: /etc/init.d/hdp-gmond start

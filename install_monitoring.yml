@@ -1,0 +1,23 @@
+---
+- name: Ganglia frontend/collector Playbook
+  hosts: ganglia-master
+  sudo: yes
+  tasks:
+        - include: monitoring/tasks/ganglia_server.yml
+  tags:
+    - monitoring
+  handlers:
+    - include: monitoring/handlers/handlers.yml
+
+- name: Ganglia monitor Playbook
+  hosts: ganglia-nodes
+  sudo: yes
+  vars_files:
+        - [ "vars/nodeType.yml" ]
+  tasks:
+        - include: monitoring/tasks/ganglia_client.yml
+  handlers:
+    - include: monitoring/handlers/handlers.yml
+  tags:
+    - monitoring
+

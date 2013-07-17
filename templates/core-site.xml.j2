@@ -42,9 +42,7 @@
 
   <property>
     <name>fs.default.name</name>
-    {% for nn in groups['namenode'] %}
-           <value>hdfs://{{ hostvars[nn]['ansible_hostname'] }}:8020</value>
-    {% endfor %}
+           <value>hdfs://{{ hostvars[groups['namenode'][0]]['ansible_eth0']['ipv4']['address'] }}:8020</value>
     <description>
         The name of the default file system.  Either the
         literal string "local" or a host:port for NDFS.
@@ -245,7 +243,7 @@ DEFAULT
   </property>
 
   <property>
-    <name>hadoop.proxyuser.HTTP.hosts</name>
+    <name>hadoop.pnamenodehosts</name>
     <value>*</value>
     <description>Proxy host for Hadoop.</description>
   </property>

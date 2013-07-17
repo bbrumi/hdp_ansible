@@ -22,8 +22,7 @@
 
 #When run for the first time, we need to remove the login_user and login_password as root will not have a password set.
         - name: MySQL | update mysql root password for all root accounts
-          mysql_user: name=root host=localhost password=$root_db_password 
-#login_user=root login_password=$root_db_password
+          mysql_user: name=root host=localhost password=$root_db_password login_user=root login_password=$root_db_password
 
         - name: MySQL | Update MySQL root password for all root accounts
           mysql_user: name=root host={{ item }} login_user=root login_password=$root_db_password password=${root_db_password}

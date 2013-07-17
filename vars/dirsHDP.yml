@@ -78,13 +78,17 @@ OOZIE_PID_DIR:  /var/run/oozie
 # Directory to store the Oozie temporary files.
 OOZIE_TMP_DIR:  /var/tmp/oozie 
 
+OOZIE_LIB_DIR: /usr/lib/oozie
+
 #
 # Hadoop Service - Sqoop
 #
 SQOOP_CONF_DIR:  /etc/sqoop/conf 
 
+SQOOP_LIB_DIR:   /usr/lib/sqoop/lib
 #
 # HADOOP BASE DIRS -- DO NOT CHANGE!!!
 #
 HADOOP_BIN: /usr/lib/hadoop/bin
 HADOOP_SBIN: /usr/lib/hadoop/sbin
+HADOOP_LIB_DIR: /usr/lib/hadoop

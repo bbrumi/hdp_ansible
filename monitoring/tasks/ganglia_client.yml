@@ -1,0 +1,56 @@
+#this file defines behavior for the 'ganglia-nodes' class of nodes
+- name: GANGLIA CLIENT | install gmond
+  yum: name=ganglia-gmond state=installed
+  tags:
+    - packages
+
+- name: GANGLIA CLIENT| copy script
+  copy: src={{item}} dest=/etc/init.d/ owner=root group=root mode=755
+  with_items: monitoring/files/scripts/hdp-gmond
+
+- name: GANGLIA CLIENT| create HDP objects directory
+  file: path=/usr/libexec/hdp/ganglia state=directory
+
+- name: GANGLIA CLIENT| copy objects
+  copy: src={{item}} dest=/usr/libexec/hdp/ganglia/ mode=755
+  with_fileglob: ../files/ganglia_objects/* 
+
+- name: GANGLIA CLIENT| Configure gmond NN
+  command: /usr/libexec/hdp/ganglia/setupGanglia.sh -c HDPNameNode
+  only_if: '$is_namenode'
+
+- name: GANGLIA CLIENT| Configure gmond SNN
+  command: /usr/libexec/hdp/ganglia/setupGanglia.sh -c HDPNameNode
+  only_if: '$is_secondary_namenode'
+
+- name: GANGLIA CLIENT| Configure gmond JT
+  command: /usr/libexec/hdp/ganglia/setupGanglia.sh -c HDPJobTracker
+  only_if: '$is_jobtracker'
+
+- name: GANGLIA CLIENT| Configure gmond DN
+  command: /usr/libexec/hdp/ganglia/setupGanglia.sh -c HDPSlaves
+  only_if: '$is_worker'
+
+- name: GANGLIA CLIENT | copy script
+  template: src=../templates/{{item}}.j2 dest=/tmp/{{item}} mode=755
+  with_items:
+        - fix_bind_gmond.sh
+
+- name: GANGLIA CLIENT| Make sure bind addresses are correct
+  command: sh /tmp/fix_bind_gmond.sh
+
+
+#- name: GANGLIA CLIENT | configure gmond
+#  action: template src=monitoring/templates/etc/ganglia/gmond.conf dest=/etc/ganglia/gmond.conf owner=root group=root
+#  notify:
+#      - restart gmond
+
+- name: GANGLIA CLIENT | Make sure Ganglia is stopped
+  service: name={{item}} state=stopped enabled=no
+  with_items:
+        - gmetad
+        - gmond
+
+- name: GANGLIA CLIENT | ensure ganglia is running
+  command: /etc/init.d/hdp-gmond start
+

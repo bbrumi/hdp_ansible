@@ -1,8 +1,8 @@
 - hosts: mysqlForHive
   sudo: Yes
   vars_files: 
-        - [ "../vars/dirsHDP.yml"]
-        - [ "../vars/userGrp.yml" ]
+        - [ "vars/dirsHDP.yml"]
+        - [ "vars/userGrp.yml" ]
 
   tasks:
         - name: Hive | Copy new configuration files

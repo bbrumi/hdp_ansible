@@ -26,10 +26,8 @@
           with_items:
                 - ${HIVE_LOG_DIR}
                 - ${HIVE_PID_DIR}
+                - ${HIVE_CONF_DIR}
 
-        - name: Hive | Create configuration directory
-          file: path=${HIVE_CONF_DIR} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755 state=directory
-        
         - name: Hive | Copy new configuration files
           template: src=../templates/hive/{{item}}.j2 dest=${HIVE_CONF_DIR}/{{item}} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755
           with_items:
