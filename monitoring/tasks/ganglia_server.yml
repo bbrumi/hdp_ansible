@@ -28,6 +28,9 @@
         - nobody
         - rrdcached
 
+- name: GANGLIA | Change ownership rrds
+  file: path=/var/lib/ganglia/rrds state=directory owner=nobody
+
 - name: GANGLIA | create HDP objects directory
   file: path=/usr/libexec/hdp/ganglia state=directory
 
@@ -58,6 +61,9 @@
 
 - name: GANGLIA | Make sure bind addresses are correct
   command: sh /tmp/fix_bind_gmond.sh
+
+- name: GANGLIA | Clean up
+  file: path=/tmp/fix_bind_gmond.sh state=absent
 
 - name: GANGLIA | Make sure Ganglia is stopped
   service: name={{item}} state=stopped enabled=no

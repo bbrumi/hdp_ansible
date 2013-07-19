@@ -1,0 +1,16 @@
+{% for host in groups['nagios-nodes'] %}
+define host {
+       alias {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
+       host_name {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
+       use linux-server
+       address {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
+       check_interval 0.25
+       retry_interval 0.25
+       max_check_attempts 4
+       notifications_enabled 1
+       first_notification_delay 0 # Send notification soon after
+                                   change in the hard state
+       notification_interval 0    # Send the notification once
+       notification_options       d,u,r
+ }
+{% endfor %}

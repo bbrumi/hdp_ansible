@@ -1,0 +1,20 @@
+#!/bin/bash
+
+sed -i.bak 's/nagios@localhost/{{NAGIOS_EMAIL}}/g' /etc/nagios/objects/contacts.cfg
+rm -rf /etc/nagios/objects/*.bak
+
+match='# OBJECT CONFIGURATION FILE(S)'
+line1='cfg_file=\/etc\/nagios\/objects\/hadoop-commands.cfg'
+line2='cfg_file=\/etc\/nagios\/objects\/hadoop-hosts.cfg'
+line3='cfg_file=\/etc\/nagios\/objects\/hadoop-hostgroups.cfg'
+line4='cfg_file=\/etc\/nagios\/objects\/hadoop-services.cfg'
+line5='cfg_file=\/etc\/nagios\/objects\/hadoop-servicegroups.cfg'
+
+
+sed -i.bak "s/$match/$match\n$line1/" /etc/nagios/nagios.cfg 
+sed -i.bak "s/$match/$match\n$line2/" /etc/nagios/nagios.cfg 
+sed -i.bak "s/$match/$match\n$line3/" /etc/nagios/nagios.cfg 
+sed -i.bak "s/$match/$match\n$line4/" /etc/nagios/nagios.cfg 
+sed -i.bak "s/$match/$match\n$line5/" /etc/nagios/nagios.cfg 
+rm -rf /etc/nagios/*.bak
+

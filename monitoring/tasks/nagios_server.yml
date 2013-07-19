@@ -1,5 +1,10 @@
 # this file defines behavior for the 'ganglia_master' class of nodes
 
+#- name: NAGIOS | Install RPMForge repo
+- name: NAGIOS | Clean up in case this script is run more than once
+  yum: name=nagios state=absent
+  ignore_errors: yes
+
 - name: NAGIOS | Installing packages on the server
   yum: name={{item}} state=installed
   only_if: "'$ansible_pkg_mgr' == 'yum'"
@@ -21,15 +26,41 @@
 - name: NAGIOS | Ensure apache is running
   action: service name=httpd state=started
 
-- name: GANGLIA | copy objects
-  copy: src={{item}} dest=/usr/libexec/hdp/ganglia/ mode=755
-  with_fileglob: ../files/objects/* 
+- name: NAGIOS | copy objects
+  copy: src={{item}} dest=/etc/nagios/objects/ mode=755
+  with_fileglob: ../files/nagios_objects/* 
 
-- name: GANGLIA | copy scripts
-  copy: src={{item}} dest=/etc/init.d/
-  with_fileglob: monitoring/files/scripts/*
+- name: NAGIOS | copy plugins
+  copy: src={{item}} dest=/usr/lib64/nagios/plugins mode=755
+  with_fileglob: ../files/nagios_plugins/*
 
-- action: service name=$item state=running
+- name: NAGIOS | set Nagios Admin pass
+  command: htpasswd -c -b /etc/nagios/htpasswd.users ${NAGIOS_USER} ${NAGIOS_PASS}
+
+- name: NAGIOS | copy script
+  template: src=../templates/{{item}}.j2 dest=/tmp/{{item}} mode=755
   with_items:
-      - httpd
-      - hdp-gmetad start
+        - config_nagios.sh
+
+- name: NAGIOS | Make sure nagios email is configured and hadoop config files are set
+  command: sh /tmp/config_nagios.sh
+
+- name: NAGIOS | Clean up
+  file: path=/tmp/config_nagios.sh state=absent
+
+
+- name: NAGIOS | Copy config hosts
+  template: src=../templates/nagios/{{item}}.j2 dest=/etc/nagios/objects/{{item}}
+  with_items:
+        - hadoop-hosts.cfg
+
+- name: NAGIOS | Copy config hostgroups
+  template: src=../templates/nagios/{{item}}.j2 dest=/etc/nagios/objects/{{item}}
+  with_items:
+        - hadoop-hostgroups.cfg
+
+- name: NAGIOS | Copy rest of the configurations
+  copy: src=../templates/nagios/{{item}}.j2 dest=/etc/nagios/objects/{{item}}
+  with_items:
+        - hadoop-commands.cfg
+        - hadoop-services.cfg

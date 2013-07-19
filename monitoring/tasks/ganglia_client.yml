@@ -48,7 +48,6 @@
 - name: GANGLIA CLIENT | Make sure Ganglia is stopped
   service: name={{item}} state=stopped enabled=no
   with_items:
-        - gmetad
         - gmond
 
 - name: GANGLIA CLIENT | ensure ganglia is running

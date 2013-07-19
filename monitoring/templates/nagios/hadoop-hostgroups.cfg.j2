@@ -1,0 +1,54 @@
+define hostgroup {
+	hostgroup_name all-servers
+	alias All Servers
+	members
+{% for host in groups['nagios-nodes'] %}
+	 {{ hostvars[host]['ansible_eth0']['ipv4']['address'] | join(", ") }}
+{% endfor %}
+}
+
+define hostgroup {
+        hostgroup_name namenode
+        alias namenode
+        members {{hostvars[groups['namenode'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name snamenode
+        alias snamenode
+        members {{hostvars[groups['secondary_namenode'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name jobtracker
+        alias jobtracker
+        members {{hostvars[groups['jobtracker'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name slaves
+        alias slaves
+	members
+{% for host in groups['nagios-nodes'] %}
+         {{ hostvars[host]['ansible_eth0']['ipv4']['address'] |join(", ") }}
+{% endfor %}
+}
+
+define hostgroup {
+        hostgroup_name nagios-server
+        alias nagios-server
+        members {{hostvars[groups['nagios-master'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name ganglia-server
+        alias ganglia-server
+        members {{hostvars[groups['ganglia-master'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name hiveserver
+        alias hiveserver
+        members {{hostvars[groups['mysqlForHive'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+

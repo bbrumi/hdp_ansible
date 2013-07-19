@@ -1,0 +1,11 @@
+---
+- name: Nagios frontend/collector Playbook
+  hosts: nagios-master
+  sudo: yes
+  vars_files:
+        - [ "monitoring/vars/nagios.yml" ]
+
+  tasks:
+        - include: monitoring/tasks/nagios_server.yml
+  tags:
+    - monitoring
