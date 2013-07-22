@@ -2,7 +2,7 @@
   sudo: Yes
   
   tasks:
-        - name: HDP | Copy configuration files
+        - name: Test
           template: src=templates/{{item}}.j2 dest=/home/hadoop/horton_install/dummy 
           with_items:
                 - hosts

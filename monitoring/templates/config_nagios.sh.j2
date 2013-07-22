@@ -18,3 +18,13 @@ sed -i.bak "s/$match/$match\n$line4/" /etc/nagios/nagios.cfg
 sed -i.bak "s/$match/$match\n$line5/" /etc/nagios/nagios.cfg 
 rm -rf /etc/nagios/*.bak
 
+hosts_list=''
+
+{% for host in groups['nagios-nodes'] %}
+       hosts_list={{ hostvars[host]['inventory_hostname']}},$hosts_list
+        {# {{ hostvars[host]['ansible_eth0']['ipv4']['address'] | join(", ") }} #}
+{% endfor %}
+
+sed -i.bak "s/changeme/${hosts_list%?}/g" /etc/nagios/objects/hadoop-hostgroups.cfg
+
+rm -rf /etc/nagios/objects/*.bak

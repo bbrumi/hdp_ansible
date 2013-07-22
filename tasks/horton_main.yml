@@ -20,6 +20,11 @@
                 - ${HDFS_USER}
                 - ${MAPRED_USER}
 
+        - name: HDP | Uninstall if already installed
+          yum: name={{ item }} state=removed
+          with_items:
+                - hadoop
+
         - name: HDP | Install HDP
           yum: name={{ item }} state=installed
           with_items:

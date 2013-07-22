@@ -7,6 +7,9 @@
         - [ "../vars/hive.yml" ]    
  
   tasks:
+        - name: Hive | Clean up
+          file: path=/usr/lib/hcatalog state=absent
+          ignore_errors: yes
          
         - name: Hive | Install Hive
           yum: name={{item}} state=installed

@@ -7,9 +7,6 @@
 - name: GANGLIA | Install PHP
   yum: name=php state=installed
 
-- name: GANGLIA | Ensure apache is running
-  action: service name=httpd state=restarted
-
 - name: GANGLIA | Install packages
   yum: name={{item}} state=installed
   with_items:
@@ -17,6 +14,9 @@
     - ganglia-gmond
     - hdp_mon_ganglia_addons
     - gweb
+    - rrdtool
+    - rrdtool-devel
+    - perl-rrdtool
   notify:
      - restart httpd
   tags:
@@ -30,6 +30,9 @@
 
 - name: GANGLIA | Change ownership rrds
   file: path=/var/lib/ganglia/rrds state=directory owner=nobody
+
+- name: GANGLIA | Start rrdcached
+  service: name=rrdcached state=started enabled=yes
 
 - name: GANGLIA | create HDP objects directory
   file: path=/usr/libexec/hdp/ganglia state=directory

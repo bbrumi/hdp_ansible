@@ -6,3 +6,6 @@
 
 - name: restart httpd
   action: service name=httpd state=restarted
+
+- name: restart nagios
+  action: service name=nagios state=restarted

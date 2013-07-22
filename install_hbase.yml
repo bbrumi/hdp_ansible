@@ -1,0 +1,7 @@
+#Main install for Hortonworks HDP
+
+#- include: tasks/install-base.yml tags=base
+#- include: tasks/jdk6.yml tags=java
+- include: tasks/zookeeper.yml tags=zookeeper
+- include: tasks/hbase_master.yml tags=hbase
+- include: tasks/hbase_regions.yml tags=oozie

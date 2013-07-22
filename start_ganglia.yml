@@ -1,6 +1,8 @@
 #Start Ganglia
 - hosts: ganglia-master
   sudo: Yes
+  handlers:
+    - include: monitoring/handlers/handlers.yml
   tasks:
         - name: Start Ganglia server
           command: /etc/init.d/hdp-gmetad start

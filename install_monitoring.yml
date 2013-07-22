@@ -4,10 +4,10 @@
   sudo: yes
   tasks:
         - include: monitoring/tasks/ganglia_server.yml
-  tags:
-    - monitoring
   handlers:
     - include: monitoring/handlers/handlers.yml
+  tags:
+    - monitoring
 
 - name: Ganglia monitor Playbook
   hosts: ganglia-nodes
@@ -21,3 +21,13 @@
   tags:
     - monitoring
 
+- name: Nagios install
+  hosts: nagios-master
+  vars_files:
+        - [ "monitoring/vars/nagios.yml" ]
+  tasks:
+        - include: monitoring/tasks/nagios_server.yml
+  tags:
+    - monitoring
+  handlers:
+    - include: monitoring/handlers/handlers.yml

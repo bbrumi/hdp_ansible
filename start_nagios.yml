@@ -1,0 +1,6 @@
+- hosts: nagios-master
+  sudo: Yes
+  tasks:
+        - name: Start Nagios server
+          service: name=nagios state=started
+
