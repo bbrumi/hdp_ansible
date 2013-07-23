@@ -3,8 +3,7 @@
 hosts_list=''
 
 {% for host in groups['zookeeper'] %}
-       hosts_list={{ hostvars[host]['inventory_hostname']}}:2181,$hosts_list
-        {# {{ hostvars[host]['ansible_eth0']['ipv4']['address'] | join(", ") }} #}
+       hosts_list={{ hostvars[host]['ansible_eth0']['ipv4']['address']}}:2181,$hosts_list
 {% endfor %}
 
 sed -i.bak "s/changeme/${hosts_list%?}/g" ${WEBHCAT_CONF_DIR}/webhcat-site.xml

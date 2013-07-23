@@ -1,12 +1,9 @@
 {% for host in groups['nagios-nodes'] %}
 define host {
-  {#     alias {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} 
-       host_name {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} #}
-       alias {{ hostvars[host]['inventory_hostname'] }}
-       host_name {{ hostvars[host]['inventory_hostname'] }}
+       alias {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} 
+       host_name {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} 
        use linux-server
-       address {{ hostvars[host]['inventory_hostname'] }}
-       {# address {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }} #}
+       address {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
        check_interval 0.25
        retry_interval 0.25
        max_check_attempts 4

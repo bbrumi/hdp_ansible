@@ -21,8 +21,7 @@ rm -rf /etc/nagios/*.bak
 hosts_list=''
 
 {% for host in groups['nagios-nodes'] %}
-       hosts_list={{ hostvars[host]['inventory_hostname']}},$hosts_list
-        {# {{ hostvars[host]['ansible_eth0']['ipv4']['address'] | join(", ") }} #}
+       hosts_list={{ hostvars[host]['ansible_eth0']['ipv4']['address']}},$hosts_list
 {% endfor %}
 
 sed -i.bak "s/changeme/${hosts_list%?}/g" /etc/nagios/objects/hadoop-hostgroups.cfg
