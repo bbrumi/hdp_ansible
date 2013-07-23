@@ -9,11 +9,11 @@
   tasks: 
  #enable ntpd
         - name: COMMON | Install NTPD package
-          yum: pkg=$item state=installed
+          yum: name={{item}} state=installed
           with_items:
                 - ntp
                 - ntpdate
-          only_if: "'$ansible_pkg_mgr' == 'yum'"
+                - libselinux-python
 
         - name: COMMON | Start NTP daemon now and after reboots
           service: name=ntpd state=started enabled=yes

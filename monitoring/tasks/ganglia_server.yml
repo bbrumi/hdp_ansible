@@ -2,7 +2,6 @@
 
 - name: GANGLIA | Install HTTPD package
   yum: name=httpd state=installed
-  only_if: "'$ansible_pkg_mgr' == 'yum'"
 
 - name: GANGLIA | Install PHP
   yum: name=php state=installed

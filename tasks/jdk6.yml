@@ -28,7 +28,6 @@
         - name: JDK | Install JDK6 RPM package
           action: command chdir=${tmpDirJDK} rpm --force -Uvh ${java_archive}
           register: jdk_installed="True"
-          only_if: "'$ansible_pkg_mgr' == 'yum'"
           only_if: is_unset("$jdk_installed")
 
         - name: JDK | Cleanup temporary files - JDK6
