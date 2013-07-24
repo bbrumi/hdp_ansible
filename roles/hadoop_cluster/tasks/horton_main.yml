@@ -1,0 +1,43 @@
+- name: HDP | Configure Hortonworks yum repo 
+  get_url: url=${HADOOP_REPO} dest=/etc/yum.repos.d/hdp.repo force=no owner=root group=root
+       
+- name: HDP | Configure Ambari yum repo
+  get_url: url=${AMBARI_REPO} dest=/etc/yum.repos.d/ambari.repo force=no owner=root group=root
+
+- name: HDP | Create Hadoop group
+  group: name=${HADOOP_GROUP} system=no state=present
+
+- name: HDP | Create Hadoop users
+  user: name={{ item }} group=${HADOOP_GROUP} state=present
+  with_items:
+        - ${HDFS_USER}
+        - ${MAPRED_USER}
+
+- name: HDP | Uninstall if already installed
+  yum: name={{ item }} state=removed
+  with_items:
+        - hadoop
+
+- name: HDP | Install HDP
+  yum: name={{ item }} state=installed
+  with_items:
+        - hadoop 
+        - hadoop-libhdfs 
+        - hadoop-native 
+        - hadoop-pipes 
+        - hadoop-sbin 
+        - openssl   
+        
+- name: HDP | Install compression library Snappy
+  yum: name={{item}} state=installed
+  with_items:
+        - snappy
+        - snappy-devel
+
+- name: HDP | Install LZO
+  yum: name={{item}} state=installed
+  with_items:
+        - lzo
+        - lzo-devel
+        - hadoop-lzo
+        - hadoop-lzo-native

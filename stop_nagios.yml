@@ -1,6 +1,0 @@
-- hosts: nagios-master
-  sudo: Yes
-  tasks:
-        - name: Stop Nagios server
-          service: name=nagios state=stopped
-

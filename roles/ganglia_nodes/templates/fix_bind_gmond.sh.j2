@@ -1,0 +1,17 @@
+#!/bin/bash
+find /etc/ganglia/ -type f -print0 | xargs -0 sed -i.bak 's/hmc.localdomain/{{hostvars[groups['ganglia_master'][0]]['ansible_eth0']['ipv4']['address'] }}/g'
+
+#  host = 172.16.115.228
+#/etc/ganglia/hdp/HDPSlaves/conf.d/gmond.slave.conf
+
+find /etc/ganglia/ -type f -print0 | xargs -0 sed -i.bak 's/host = localhost/host = {{hostvars[groups['ganglia_master'][0]]['ansible_eth0']['ipv4']['address'] }}/g'
+
+#data_source "HDPSlaves" 172.16.115.230:8660
+#data_source "HDPNameNode" 172.16.115.230:8661
+#data_source "HDPJobTracker" 172.16.115.230:8662
+##data_source "HDPHBaseMaster" 172.16.115.230:8663
+#/etc/ganglia/hdp/gmetad.conf
+
+#sed -i.bak 's/data_source "HDPHBaseMaster"*/#data_source "HDPHBaseMaster"/g' /etc/ganglia/hdp/gmetad.conf
+
+sudo find /etc/ganglia/ -iname "*.bak" -exec rm '{}' ';'

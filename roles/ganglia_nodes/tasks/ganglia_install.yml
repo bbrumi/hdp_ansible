@@ -1,0 +1,17 @@
+#this file defines behavior for the 'ganglia_nodes' class of nodes
+- name: GANGLIA CLIENT | install gmond
+  yum: name=ganglia-gmond state=installed
+  tags:
+    - packages
+
+- name: GANGLIA CLIENT| copy script
+  copy: src={{item}} dest=/etc/init.d/ owner=root group=root mode=755
+  with_items: monitoring/files/scripts/hdp-gmond
+
+- name: GANGLIA CLIENT| create HDP objects directory
+  file: path=/usr/libexec/hdp/ganglia state=directory
+
+- name: GANGLIA CLIENT| copy objects
+  copy: src={{item}} dest=/usr/libexec/hdp/ganglia/ mode=755
+  with_fileglob: ../files/ganglia_objects/* 
+

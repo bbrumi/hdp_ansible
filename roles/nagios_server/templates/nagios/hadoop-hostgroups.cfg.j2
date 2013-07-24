@@ -1,0 +1,49 @@
+define hostgroup {
+	hostgroup_name all-servers
+	alias All Servers
+	members changeme 
+}
+
+define hostgroup {
+        hostgroup_name namenode
+        alias namenode
+        members {{hostvars[groups['namenode'][0]]['ansible_eth0']['ipv4']['address'] }} 
+	
+}
+
+define hostgroup {
+        hostgroup_name snamenode
+        alias snamenode
+        members {{hostvars[groups['secondary_namenode'][0]]['ansible_eth0']['ipv4']['address'] }} 
+}
+
+define hostgroup {
+        hostgroup_name jobtracker
+        alias jobtracker
+        members {{hostvars[groups['jobtracker'][0]]['ansible_eth0']['ipv4']['address'] }} 
+}
+
+define hostgroup {
+        hostgroup_name slaves
+        alias slaves
+	members changeme
+}
+
+define hostgroup {
+        hostgroup_name nagios_server
+        alias nagios_server
+        members {{hostvars[groups['nagios_master'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+
+define hostgroup {
+        hostgroup_name ganglia_server
+        alias ganglia_server
+        members {{hostvars[groups['ganglia_master'][0]]['ansible_eth0']['ipv4']['address'] }} 
+}
+
+define hostgroup {
+        hostgroup_name hiveserver
+        alias hiveserver
+        members {{hostvars[groups['hiveMetastore'][0]]['ansible_eth0']['ipv4']['address'] }}
+}
+

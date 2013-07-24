@@ -1,0 +1,7 @@
+- name: HDP | Create MapRed directories - DN
+  file: path={{item}} owner=${MAPRED_USER} group=${HADOOP_GROUP} mode=755 state=directory
+  with_items:
+        - ${MAPREDUCE_LOCAL_DIR}
+        - ${MAPREDUCE_LOG_DIR}
+        - ${MAPREDUCE_PID_DIR}
+

@@ -1,5 +1,5 @@
 Test
-{% for host in groups['ganglia-nodes'] %}
+{% for host in groups['ganglia_nodes'] %}
 	{{ hostvars[host] }}
 {% endfor %}
 

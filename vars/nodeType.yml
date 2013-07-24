@@ -1,5 +1,0 @@
-is_namenode: "'namenode' in $group_names"
-is_jobtracker: "'jobtracker' in $group_names"
-is_secondary_namenode: "'secondary_namenode' in $group_names"
-is_worker: "'datanodes' in $group_names"
-is_history_server: "'history_server' in $group_names"

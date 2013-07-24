@@ -1,2 +1,1 @@
-interfaces:
-- eth0
+interface: eth1

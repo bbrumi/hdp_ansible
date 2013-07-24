@@ -1,0 +1,4 @@
+---
+- name: Initialize HDFS
+  command: sudo -u ${HDFS_USER} /usr/lib/hadoop/bin/hadoop namenode -format -nonInteractive -force
+
