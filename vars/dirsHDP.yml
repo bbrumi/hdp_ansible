@@ -8,7 +8,7 @@ DFS_NAME_DIR:
 
 # List of directories where DataNodes will store the blocks.
 DFS_DATA_DIR:
-- /hdfs/data1
+- /hdfs/data
 
 #List of directories where SecondaryNameNode will store checkpoint image.
 FS_CHECKPOINT_DIR:
@@ -29,9 +29,9 @@ HDFS_PID_DIR:  /var/run/hadoop/hdfs
 
 # List of directories where MapReduce will store temporary data.
 MAPREDUCE_LOCAL_DIR:
-- /mapred/
+- /hdfs/mapred/
 
-MAPREDUCE_HDFS_DIR: /mapred
+MAPREDUCE_HDFS_DIR: /hdfs/mapred
 
 # Directory to store the MapReduce logs.
 MAPREDUCE_LOG_DIR:  /var/log/hadoop/mapred 
