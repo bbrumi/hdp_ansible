@@ -1,5 +1,5 @@
 - name: Hive | Copy stop script
-  template: src=templates/{{item}}.j2 dest=${HIVE_CONF_DIR}/{{item}} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755
+  template: src={{item}}.j2 dest=${HIVE_CONF_DIR}/{{item}} owner=${HIVE_USER} group=${HADOOP_GROUP} mode=755
   with_items:
         - stopHiveMetastore.sh
 

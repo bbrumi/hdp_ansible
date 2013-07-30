@@ -63,14 +63,14 @@
 
   <property>
     <name>mapred.job.tracker</name>
-    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_eth0']['ipv4']['address'] }}:8021</value>
+    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_'+interface]['ipv4']['address'] }}:8021</value>
     <description>No description</description>
     <final>true</final>
   </property>
 
   <property>
     <name>mapred.job.tracker.http.address</name>
-    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_eth0']['ipv4']['address'] }}:50030</value>
+    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_'+interface]['ipv4']['address'] }}:50030</value>
     <description>No description</description>
     <final>true</final>
   </property>
@@ -475,7 +475,7 @@
 
   <property>
     <name>mapreduce.history.server.http.address</name>
-    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_eth0']['ipv4']['address'] }}:51111</value>
+    <value>{{ hostvars[groups['jobtracker'][0]]['ansible_'+interface]['ipv4']['address'] }}:51111</value>
     <description>Http address of the history server</description>
     <final>true</final>
   </property>

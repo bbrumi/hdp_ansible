@@ -18,7 +18,7 @@
   lineinfile: dest=/etc/sysconfig/network backup=yes regexp=^NETWORKING_IPV6 line=NETWORKING_IPV6=no
 
 - name: COMMON | Disable IPv6 - network-scripts
-  lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth0 backup=yes regexp=^IPV6INIT line=IPV6INIT="no"
+  lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-${interface} backup=yes regexp=^IPV6INIT line=IPV6INIT="no"
         
 - name: COMMON | Disable IPv6 firewall
   service: name=ip6tables state=stopped enabled=no 

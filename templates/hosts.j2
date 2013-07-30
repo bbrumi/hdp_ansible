@@ -1,6 +1,8 @@
 Test
+{{ network }}
+{# 
 {% for host in groups['ganglia_nodes'] %}
 	{{ hostvars[host] }}
 {% endfor %}
-
-   {{ hostvars['master']['ansible_eth0']['ipv4']['address'] }}
+#}
+   {{ hostvars['master']['ansible_'+network]['ipv4']['address'] }}
